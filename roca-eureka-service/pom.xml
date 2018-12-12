@@ -28,6 +28,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-zuul -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-zuul</artifactId>
+    <version>1.4.6.RELEASE</version>
+</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

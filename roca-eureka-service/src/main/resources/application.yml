@@ -11,3 +11,13 @@ eureka:
     fetchRegistry: false
     server:
       waitTimeInMsWhenSyncEmpty: 0
+
+zuul:
+  prefix: /api
+  routes:
+    roca-db-service:
+      path: /roca-db-service/**
+      url: http://localhost:8303
+    roca-bl-service:
+      path: /roca-bl-service/**
+      url: http://localhost:8301     
