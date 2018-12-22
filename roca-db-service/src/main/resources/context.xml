@@ -1,0 +1,18 @@
+<context>
+<Resource name="jdbc/rocadb"
+		  auth="Container"
+		  type="javax.sql.datasource"
+		  driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		  url="jdbc:sqlserver://rocahost.database.windows.net:1433;database=rocadb;user=rocaadmin@rocahost;password=Glorzient@123;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+		  username="rocaadmin@rocahost"
+		  password="Glorzient@123"
+	 	  idleConnectionTestPeriod="600"
+	 	  initialPoolSize="1"
+	 	  maxIdleTime="600"
+	 	  maxPoolSize="5"
+	 	  maxStatements="50"
+	 	  minPoolSize="1"	
+		  ></Resource>
+		  
+		  <ResourseLink type="javax.sql.datasource" name="jdbc/rocadb" global="jdbc/rocadb"></ResourseLink>
+</context>
