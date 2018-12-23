@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[roles_registration] (
     [role_registration_id]          INT           IDENTITY (1, 1) NOT NULL,
-    [role_registration_description] NVARCHAR (50) NOT NULL,
+    [role_registration_description] VARCHAR(200) NOT NULL,
     [is_active]                     INT           NULL,
     PRIMARY KEY CLUSTERED ([role_registration_id] ASC)
 );
