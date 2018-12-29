@@ -12,8 +12,8 @@ public class MasterDataMapper implements RowMapper<MasterData> {
 	@Override
 	public MasterData mapRow(ResultSet rs, int arg1) throws SQLException {
 		MasterData masterData = new MasterData();
-		masterData.setDescription(rs.getString("role_registration_description"));
-		masterData.setId(rs.getInt("role_registration_id"));
+		masterData.setDescription(rs.getString("Name"));
+		masterData.setId(rs.getInt("Id"));
 		return masterData;
 	}
 

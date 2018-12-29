@@ -22,7 +22,7 @@ public class MasterDataDaoImpl implements MasterDataDao {
 
 	@Override
 	public List<MasterData> getCountryData() {
-		return jdbcTemplate.query("select * from RocaMaster.CountryMaster where IsActive=1", new CountryMasterMapper());
+		return jdbcTemplate.query("select * from RocaMaster.Country where IsActive=1", new CountryMasterMapper());
 	}
 
 	@Override

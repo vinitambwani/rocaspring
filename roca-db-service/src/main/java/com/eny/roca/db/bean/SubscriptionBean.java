@@ -21,8 +21,8 @@ public class SubscriptionBean extends UserRegistration {
 	private String status;
 	private String paceId;
 	private Boolean  isAdditionalDocRequired=false;
-	private DateTime createdDate =DateTime.now(); // Need to check its Data Type Can we directly put it as DateTime...??
-	private DateTime updatedDate = DateTime.now();
+	//private DateTime createdDate =DateTime.now(); // Need to check its Data Type Can we directly put it as DateTime...??
+//	private DateTime updatedDate = DateTime.now();
 	private Boolean  isOnlineEngagementSigned=false;
 	private Integer subscriptionId;
 	private int workedWithEY=0;
@@ -131,7 +131,7 @@ public class SubscriptionBean extends UserRegistration {
 	public void setIsAdditionalDocRequired(Boolean  isAdditionalDocRequired) {
 		this.isAdditionalDocRequired = isAdditionalDocRequired;
 	}
-	public DateTime getCreatedDate() {
+	/*public DateTime getCreatedDate() {
 		return createdDate;
 	}
 	public void setCreatedDate(DateTime createdDate) {
@@ -142,7 +142,7 @@ public class SubscriptionBean extends UserRegistration {
 	}
 	public void setUpdatedDate(DateTime updatedDate) {
 		this.updatedDate = updatedDate;
-	}
+	}*/
 	public Boolean  getIsOnlineEngagementSigned() {
 		return isOnlineEngagementSigned;
 	}
@@ -157,8 +157,8 @@ public class SubscriptionBean extends UserRegistration {
 				+ companyHqLocation + ", pan=" + pan + ", isPanAttached=" + isPanAttached + ", panComments="
 				+ panComments + ", gst=" + gst + ", gstComments=" + gstComments + ", url=" + url + ", address="
 				+ address + ", isEYDiscloureSigned=" + isEYDiscloureSigned + ", status=" + status + ", paceId=" + paceId
-				+ ", isAdditionalDocRequired=" + isAdditionalDocRequired + ", createdDate=" + createdDate
-				+ ", updatedDate=" + updatedDate + ", isOnlineEngagementSigned=" + isOnlineEngagementSigned + "]";
+				+ ", isAdditionalDocRequired=" + isAdditionalDocRequired + ", createdDate=" +  
+				  ", updatedDate=" +     ", isOnlineEngagementSigned=" + isOnlineEngagementSigned + "]";
 	}
 	public int getSubscriptionId() {
 		return subscriptionId;

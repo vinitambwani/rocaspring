@@ -13,7 +13,7 @@ public class CountryMasterMapper  implements RowMapper<MasterData> {
 	@Override
 	public MasterData mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MasterData masterData = new MasterData();
-		masterData.setDescription(rs.getString("country_name"));
+		masterData.setDescription(rs.getString("CountryName"));
 		masterData.setId(rs.getInt("id"));
 		return masterData;
 	}

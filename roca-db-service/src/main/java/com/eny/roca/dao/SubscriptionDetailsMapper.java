@@ -20,7 +20,7 @@ public class SubscriptionDetailsMapper implements RowMapper<SubscriptionBean> {
 		subscriptionBean.setBodyCorporates(rs.getString("BodyCorporates"));
 		subscriptionBean.setIsCharitable(rs.getBoolean("IsCharitableOrNonProfitable"));
 		subscriptionBean.setIndustryId(rs.getString("IndustryId"));// Need to query to get industry..
-		subscriptionBean.setCompanyHqLocation(rs.getString("CompanyHQLocation"));
+		subscriptionBean.setCompanyHqLocation(rs.getString("cm1CountryName"));
 		subscriptionBean.setPan(rs.getString("Pan"));
 		subscriptionBean.setPanComments(rs.getString("PanComments"));
 		subscriptionBean.setGst(rs.getString("Gst"));
@@ -28,7 +28,7 @@ public class SubscriptionDetailsMapper implements RowMapper<SubscriptionBean> {
 		subscriptionBean.setUrl(rs.getString("Url"));
 		subscriptionBean.setAddress(rs.getString("Address"));
 		subscriptionBean.setContactPerson(rs.getString("ContactPerson"));
-		subscriptionBean.setRoleId(rs.getInt("RoleId")); // it has to be role_description to dispy on ui
+		subscriptionBean.setRoleName(rs.getString("RoleDesc")); // it has to be role_description to dispy on ui
 		subscriptionBean.setEmailId(rs.getString("EmailId"));
 		subscriptionBean.setMobileNo(rs.getLong("mobileNumber"));
 		subscriptionBean.setWorkedWithEY(rs.getInt("WorkedWithEY"));

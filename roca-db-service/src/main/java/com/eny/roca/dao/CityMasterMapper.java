@@ -13,7 +13,7 @@ public class CityMasterMapper implements RowMapper<MasterData> {
 	@Override
 	public MasterData mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MasterData masterData = new MasterData();
-		masterData.setDescription(rs.getString("city_name"));
+		masterData.setDescription(rs.getString("CityName"));
 		masterData.setId(rs.getInt("id"));
 		return masterData;
 	}
