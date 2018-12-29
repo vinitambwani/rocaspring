@@ -6,6 +6,12 @@ import com.eny.roca.db.bean.MasterData;
 
 public interface MasterDataDao {
 
-	List<MasterData> getMasterData(String string);
+	List<MasterData> getRoles(String string);
+
+	List<MasterData> getCountryData();
+
+	List<MasterData> getCityDataByCountry(Integer countryId);
+
+ 
 
 }

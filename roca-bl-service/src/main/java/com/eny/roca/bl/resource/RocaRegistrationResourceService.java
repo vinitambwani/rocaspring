@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.eny.roca.bean.RegistrationBean;
+import com.eny.roca.bean.UserRegistration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -20,13 +21,14 @@ public class RocaRegistrationResourceService {
 	
 	@Autowired
 	private RestTemplate restTemplate;
+	@Autowired
+	private Gson gson;
 	
 	
 	@PostMapping("/register")
-	public String registerNewUser(@RequestBody RegistrationBean registrationBean) {
-		final GsonBuilder gsonBuilder = new GsonBuilder();
-		Gson gson = gsonBuilder.create();
+	public String registerNewUser(@RequestBody UserRegistration registrationBean) {
 		String json = gson.toJson(registrationBean);
+		 
 		HttpHeaders httpHeaders = new  HttpHeaders();
 		httpHeaders.set("content-type", "application/json");
 		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);

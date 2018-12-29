@@ -39,16 +39,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
- 
-	<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/sqljdbc4 -->
+		
 <dependency>
     <groupId>com.microsoft.sqlserver</groupId>
     <artifactId>mssql-jdbc</artifactId>
      
 </dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+	 
 <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-beans</artifactId>

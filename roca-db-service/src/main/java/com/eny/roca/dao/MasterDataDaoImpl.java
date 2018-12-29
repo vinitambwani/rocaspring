@@ -16,8 +16,19 @@ public class MasterDataDaoImpl implements MasterDataDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<MasterData> getMasterData(String tableName) {
-		return jdbcTemplate.query("select * from "+tableName+" where is_active=1", new MasterDataMapper()); 
+	public List<MasterData> getRoles(String tableName) {
+		return jdbcTemplate.query("select * from RocaMaster.RoleMaster where IsActive=1", new MasterDataMapper()); 
+	}
+
+	@Override
+	public List<MasterData> getCountryData() {
+		return jdbcTemplate.query("select * from RocaMaster.CountryMaster where IsActive=1", new CountryMasterMapper());
+	}
+
+	@Override
+	public List<MasterData> getCityDataByCountry(Integer countryId) {
+		return jdbcTemplate.query("select * from RocaMaster.CityMaster where isActive=1 and CountryId=?", new Object[] { countryId } , new CityMasterMapper());
+		 
 	}
 	
 	
