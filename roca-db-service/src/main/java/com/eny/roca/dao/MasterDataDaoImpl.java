@@ -30,6 +30,12 @@ public class MasterDataDaoImpl implements MasterDataDao {
 		return jdbcTemplate.query("select * from RocaMaster.CityMaster where isActive=1 and CountryId=?", new Object[] { countryId } , new CityMasterMapper());
 		 
 	}
+
+	@Override
+	public List<MasterData> getIndustry() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 

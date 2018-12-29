@@ -12,6 +12,8 @@ public interface MasterDataDao {
 
 	List<MasterData> getCityDataByCountry(Integer countryId);
 
+	List<MasterData> getIndustry();
+
  
 
 }

@@ -55,5 +55,12 @@ public class MasterDataResourceService {
 		return (List<MasterData>)countries.getBody();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/industry")
+	public List<MasterData> getIndustry() {
+		ResponseEntity<List> countries = restTemplate.getForEntity("http://roca-db-service/rs/db/getIndustry", List.class);
+		return (List<MasterData>)countries.getBody();
+	}
+	
 	
 }
