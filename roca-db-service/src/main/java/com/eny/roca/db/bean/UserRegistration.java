@@ -1,7 +1,8 @@
 package com.eny.roca.db.bean;
 
 public class UserRegistration {
-private String legalEntityName;
+
+	private String legalEntityName;
 	
 	private String contactPerson;
 	
@@ -15,9 +16,11 @@ private String legalEntityName;
 	
 	private String password;
 	
-	private Boolean  isEmailVrified=false;
+	private int countryCode;
 	
-	private Boolean  isMobileVrified=false;
+	private int isEmailVrified;
+	
+	private int isMobileVrified;
 
 	public String getLegalEntityName() {
 		return legalEntityName;
@@ -75,20 +78,27 @@ private String legalEntityName;
 		this.password = password;
 	}
 
-	public Boolean getIsEmailVrified() {
+	public int getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(int countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public int getIsEmailVrified() {
 		return isEmailVrified;
 	}
 
-	public void setIsEmailVrified(Boolean isEmailVrified) {
+	public void setIsEmailVrified(int isEmailVrified) {
 		this.isEmailVrified = isEmailVrified;
 	}
 
-	public Boolean getIsMobileVrified() {
+	public int getIsMobileVrified() {
 		return isMobileVrified;
 	}
 
-	public void setIsMobileVrified(Boolean isMobileVrified) {
+	public void setIsMobileVrified(int isMobileVrified) {
 		this.isMobileVrified = isMobileVrified;
 	}
-
 }

@@ -1,7 +1,5 @@
 package com.eny.roca.db.bean;
 
-import org.joda.time.DateTime;
-
 public class SubscriptionBean extends UserRegistration {
 	private String pseudonym;
 	private Integer  countryIncorporation;

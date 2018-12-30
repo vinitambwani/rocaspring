@@ -1,0 +1,105 @@
+package com.eny.roca.dao;
+
+import java.security.SecureRandom;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import com.eny.roca.db.bean.UserRegistration;
+import com.eny.roca.db.services.SmtpMailSender;
+import com.eny.roca.db.services.RandomString;
+import com.eny.roca.db.services.ValidateEmail;
+
+public class RegistrationDaoImpl implements RegistrationDao {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private NamedParameterJdbcTemplate namedTemplate;
+	
+	@Autowired
+	private SmtpMailSender smtpMailSender;
+	
+	
+	@Override
+	public List<UserRegistration> getRegistrationData() {
+		
+		return jdbcTemplate.query("select * from rocausers.RocaUserRegistration", new UserRegistrationDataMapper());
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Integer setMasterData(UserRegistration userRegistration) {
+		
+		String setData = "INSERT INTO rocausers.RocaUserRegistration "
+				+ "	(LegalEntityName,contactperson,roleId,emailid,mobileNumber,industryId,CountryId,password) "
+				+ "VALUES "
+				+ "  (:legalEntity,:name,:role,:email,:mobile,:industries,:countryCode,:password)";
+		
+		String ran = RandomString.digits + "ACEFGHJKLMNPQRUVWXYabcdefhijkprstuvwx" + RandomString.specialCharacter;
+		RandomString autoGenPassword = new RandomString(8, new SecureRandom(), ran);
+		
+		String password = autoGenPassword.nextString();
+		int i = 0;
+		try {
+			
+			Map namedParameters = new HashMap();
+			namedParameters.put("legalEntity", userRegistration.getLegalEntityName());
+			namedParameters.put("name", userRegistration.getContactPerson());
+			namedParameters.put("role", Integer.valueOf(userRegistration.getRoleId()));
+			namedParameters.put("email", userRegistration.getEmailId());
+			namedParameters.put("mobile", Long.valueOf(userRegistration.getMobileNo()));
+			namedParameters.put("industries", userRegistration.getIndustryId());
+			namedParameters.put("countryCode", userRegistration.getCountryCode());
+			namedParameters.put("password", password);	
+			
+			
+			i = namedTemplate.update(setData, namedParameters);
+			if(i > 0) {
+				String link = "http://localhost:8302/api/roca-db-service/rs/db/verifyEmail?email="+userRegistration.getEmailId();
+				StringBuilder  sb = new StringBuilder();
+				sb.append("WELCOME TO ROCA Services, "+"\n\n");
+				sb.append("Activate Link : " + link +"\n");
+				sb.append("You can Login to ROCA site from below Credentials"+"\n");
+				sb.append("UserName : " + userRegistration.getEmailId()+"\n");
+				sb.append("Password : " + password);
+				smtpMailSender.send(userRegistration.getEmailId(), "ROCA Account Activation", sb.toString());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} 
+		return i;
+	}
+
+	@Override
+	public Boolean validateEmailId(String emailId) {
+			  
+			  return ValidateEmail.isAddressValid(emailId);  
+	}
+
+	@Override
+	public Integer verifyEmailId(String email) {
+		
+		String setData = "UPDATE rocausers.RocaUserRegistration "
+				+ " Set isemailVerified = 1"
+				+ " where emailid = :emailid";
+		
+		int i = 0;
+		try {
+
+			Map<String, String> namedParameters = new HashMap<String, String>();
+			namedParameters.put("emailid", email);
+			i = namedTemplate.update(setData, namedParameters);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+}

@@ -1,15 +1,15 @@
 package com.eny.roca.dao;
 
-import org.joda.time.DateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.eny.roca.db.bean.SubscriptionBean;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
 
 @Repository
 public class SubscriptionDaoImpl implements SubscriptionDao {
@@ -66,8 +66,6 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		map.put("status", subscriptionBean.getStatus());
 		map.put("paceId", subscriptionBean.getPaceId());
 		map.put("isAdditionalDocRequired", subscriptionBean.getIsAdditionalDocRequired());
-		map.put("createdDate", DateTime.now());
-		map.put("updatedDate", DateTime.now());
 		map.put("isOnlineEngagementSigned", subscriptionBean.getIsOnlineEngagementSigned());
 		map.put("roleId",subscriptionBean.getRoleId()); 
 		
