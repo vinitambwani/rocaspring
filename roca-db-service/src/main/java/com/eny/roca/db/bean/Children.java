@@ -1,9 +1,9 @@
-package com.eny.roca.bean;
+package com.eny.roca.db.bean;
 
-public class MasterData {
+public class Children {
+
 	private int id;
 	private String description;
-	private Children children;
 	public int getId() {
 		return id;
 	}
@@ -16,11 +16,4 @@ public class MasterData {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Children getChildren() {
-		return children;
-	}
-	public void setChildren(Children children) {
-		this.children = children;
-	}
-
 }

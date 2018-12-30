@@ -33,8 +33,23 @@ public class MasterDataDaoImpl implements MasterDataDao {
 
 	@Override
 	public List<MasterData> getIndustry() {
+		String query = ""
+				+ "SELECT ipm.id, "
+				+ "       ipm.NAME AS parentName, "
+				+ "       icm.id   AS childId, "
+				+ "       icm.NAME AS childName "
+				+ "FROM   rocamaster.industryparentmaster AS ipm "
+				+ "       LEFT JOIN rocamaster.industrychildmaster AS icm "
+				+ "              ON ipm.id = icm.industryparentid "
+				+ "                 AND icm.isactive = 1 ";
+		return jdbcTemplate.query(query , new IndustryMapper());
+	}
+
+	@Override
+	public List<MasterData> getRocaJuniorTeamMembers() {
 		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from rocaserviceteam.ServiceTeamUsers where isActive = 1 ;", new JuniourServiceTeamMemberMapper());
+
 	}
 	
 	
