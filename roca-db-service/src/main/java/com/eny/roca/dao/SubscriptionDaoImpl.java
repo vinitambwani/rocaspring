@@ -31,7 +31,7 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 								"IsRocaServiceAvailed,\r\n" + 
 								"RelatedPartyName1,\r\n" + 
 								"RelatedPartyName2,\r\n" + 
-								"mobileNumber) "
+								"mobileNumber,ContactPerson) "
 				+ "				 VALUES (:legalEntityName,:pseudonym,:countryIncorporation,:taxResidentialStatus,:bodyCorporates, :isCharitable,:registrationId,:emailid,:industry,:companyHqLocation,:PAN,:isPanAttached, "
 				+ "								:panComments, "
 				+ "								:GST, "
@@ -42,7 +42,7 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 				+ "								:status, "
 				+ "								:paceId, "
 				+ "								:isAdditionalDocRequired, "
-			 	+ "								:isOnlineEngagementSigned,:roleId,:workedWithEY,:eyContactPerson1,:eyContactPerson2,:rocaServiceAvailed,:relatedPartyName1,:relatedPartyName2,:mobileNumber)";
+			 	+ "								:isOnlineEngagementSigned,:roleId,:workedWithEY,:eyContactPerson1,:eyContactPerson2,:rocaServiceAvailed,:relatedPartyName1,:relatedPartyName2,:mobileNumber,:contactPerson)";
 		
 		Map<String,Object> map = new HashMap<>(1);
 		map.put("legalEntityName", subscriptionBean.getLegalEntityName());
@@ -78,6 +78,7 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		map.put("relatedPartyName1",subscriptionBean.getRelatedPartyName1()); 
 		map.put("relatedPartyName2",subscriptionBean.getRelatedPartyName2()); 
 		map.put("mobileNumber",subscriptionBean.getMobileNo());
+		map.put("contactPerson", subscriptionBean.getContactPerson());
 		int update = namedParameterJdbcTemplate.update(query,map);
 		return update;
 	}
