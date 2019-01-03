@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import javax.ws.rs.QueryParam;
@@ -56,5 +57,13 @@ public class MasterDataResourceService {
 		return (List<MasterData>)countries.getBody();
 	}
 	
-	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/industriesName")
+	public List<Object> getIndustryName(@RequestParam(value = "Id") String Id) {
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(Id,httpHeaders);
+		ResponseEntity<List> industryName = restTemplate.postForEntity("http://roca-db-service/rs/db/getIndustryName", httpEntity, List.class);
+		return (List<Object>)industryName.getBody();
+	}
 }

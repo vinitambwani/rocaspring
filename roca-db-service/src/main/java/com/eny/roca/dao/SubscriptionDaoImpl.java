@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.eny.roca.db.bean.SubscriptionAssignment;
 import com.eny.roca.db.bean.SubscriptionBean;
 
 @Repository
@@ -112,6 +113,23 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		 }else {
 			 return null;
 		 }
+	}
+
+
+	@Override
+	public Integer saveSubscriptionAssignment(SubscriptionAssignment subscriptionAssignment) {
+		String query =  "INSERT INTO  rocaserviceteam.SubscriptionAssignment "
+				+ "				 (SubscriptionId, FromAssignment, ToAssignment, Comments) "
+				+ "				 VALUES (:subscriptionId,:fromAssignment,:toAssignment,:comments)";
+		
+		Map<String,Object> map = new HashMap<>(1);
+		map.put("subscriptionId", subscriptionAssignment.getSubscriptionId());
+		map.put("fromAssignment", subscriptionAssignment.getFromAssignment());
+		map.put("toAssignment", subscriptionAssignment.getToAssignment());
+		map.put("comments", subscriptionAssignment.getComments());
+		
+		int update = namedParameterJdbcTemplate.update(query,map);
+		return update;
 	}
 	
 

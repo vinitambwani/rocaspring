@@ -16,6 +16,8 @@ public interface MasterDataDao {
 
 	List<MasterData> getRocaJuniorTeamMembers();
 
+	List<Object> getIndustryName(String Id);
+
  
 
 }

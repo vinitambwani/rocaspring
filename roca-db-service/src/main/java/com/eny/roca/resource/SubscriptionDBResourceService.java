@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eny.roca.dao.SubscriptionDao;
+import com.eny.roca.db.bean.SubscriptionAssignment;
 import com.eny.roca.db.bean.SubscriptionBean;
 import com.eny.roca.db.bean.UserBean;
 
@@ -34,5 +35,10 @@ public class SubscriptionDBResourceService {
 	@PostMapping("/fetchUserSubscription")
 	public SubscriptionBean fetchUserSubscription(@RequestBody UserBean userBean) {
 		return subscriptionDao.fetchUserSubscription(userBean.getEmailId());
+	}
+	
+	@PostMapping("/subscriptionAssignment")
+	public Boolean subscriptionAssignment(@RequestBody SubscriptionAssignment subscriptionAssignment) {
+		return subscriptionDao.saveSubscriptionAssignment(subscriptionAssignment) > 0 ? true : false;
 	}
 }

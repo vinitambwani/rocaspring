@@ -10,12 +10,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.eny.roca.db.bean.UserRegistration;
 import com.eny.roca.db.services.SmtpMailSender;
 import com.eny.roca.db.services.RandomString;
 import com.eny.roca.db.services.ValidateEmail;
 
+@Repository
 public class RegistrationDaoImpl implements RegistrationDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.eny.roca.bean.SubscriptionAssignment;
 import com.eny.roca.bean.SubscriptionBean;
 import com.eny.roca.bean.UserBean;
 import com.google.gson.Gson;
@@ -57,5 +58,15 @@ public class SubscriptionResourceService {
 		return postForEntity.getBody();
 	}
 	
+	@PostMapping("/setSubscriptionAssignment")
+	public Boolean subscriptionAssignment(@RequestBody SubscriptionAssignment subscriptionAssignment) {
+		String json = gson.toJson(subscriptionAssignment);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/subscriptionAssignment", httpEntity, Boolean.class);
+		return postForEntity.getBody();
+		
+	}
 	
 }
