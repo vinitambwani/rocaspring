@@ -12,7 +12,7 @@ public interface MasterDataDao {
 
 	List<MasterData> getCityDataByCountry(Integer countryId);
 
-	List<MasterData> getIndustry();
+	List<IndustryMasterData> getIndustry();
 
 	List<MasterData> getRocaJuniorTeamMembers();
 
