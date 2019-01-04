@@ -29,20 +29,22 @@ public class IndustryDBResource {
 	 
 		List<MasterData> masterData = new ArrayList<MasterData>();
 		for(IndustryMasterData p:industry) {
-			String description = p.getDescription();
-			MasterData master= new MasterData();
-			master.setId(p.getId());
-			master.setDescription(p.getDescription());
-			List<Children> children = new ArrayList<>(1);
-			List<IndustryMasterData> childData = industry.stream().filter(i->i.getParentIndustryId()==p.getId()).collect(Collectors.toList());
-			for(IndustryMasterData	 idData:childData) {
-				Children child = new Children();
-				child.setId(idData.getId());
-				child.setDescription(idData.getDescription());
-				children.add(child);
+			if(0==p.getParentIndustryId()) {
+				MasterData master= new MasterData();
+				master.setId(p.getId());
+				master.setDescription(p.getDescription());
+				List<Children> children = new ArrayList<>(1);
+				List<IndustryMasterData> childData = industry.stream().filter(i->i.getParentIndustryId()==p.getId()).collect(Collectors.toList());
+				for(IndustryMasterData	 idData:childData) {
+					Children child = new Children();
+					child.setId(idData.getId());
+					child.setDescription(idData.getDescription());
+					children.add(child);
+				}
+				master.setChildren(children);
+				masterData.add(master);
 			}
-			master.setChildren(children);
-			masterData.add(master);
+			
 		}
 		return masterData;}
 	
