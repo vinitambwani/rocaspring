@@ -1,5 +1,7 @@
 package com.eny.roca.resource;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +42,11 @@ public class SubscriptionDBResourceService {
 	@PostMapping("/subscriptionAssignment")
 	public Boolean subscriptionAssignment(@RequestBody SubscriptionAssignment subscriptionAssignment) {
 		return subscriptionDao.saveSubscriptionAssignment(subscriptionAssignment) > 0 ? true : false;
+	}
+	
+	//Status
+	@PostMapping("/fetchUserSubscriptionStatus")
+	public List<SubscriptionBean> fetchUserSubscriptionStatus(@RequestBody UserBean userBean) {
+		return subscriptionDao.fetchUserSubscriptionStatus(userBean.getEmailId(),userBean.getStatus(),userBean.getSubscriptionId());
 	}
 }
