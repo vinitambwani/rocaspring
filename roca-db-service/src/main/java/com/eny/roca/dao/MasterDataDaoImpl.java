@@ -42,19 +42,14 @@ public class MasterDataDaoImpl implements MasterDataDao {
 	}
 
 	@Override
-	public List<MasterData> getIndustry() {
+	public List<IndustryMasterData> getIndustry() {
 		String query = ""
-				+ "SELECT ipm.id, "
-				+ "       ipm.NAME AS parentName, "
-				+ "       icm.id   AS childId, "
-				+ "       icm.NAME AS childName "
-				+ "FROM   rocamaster.industryparentmaster AS ipm "
-				+ "       LEFT JOIN rocamaster.industrychildmaster AS icm "
-				+ "              ON ipm.id = icm.industryparentid "
-				+ "                 AND icm.isactive = 1 ";
-		return jdbcTemplate.query(query , new IndustryMapper());
+				+ "SELECT * "
+				+ "FROM   rocamaster.Industry  "
+				+ "           where      isactive = 1 ";
+		List<IndustryMasterData> industryData = jdbcTemplate.query(query , new IndustryMasterDataMapper());
+		return industryData;
 	}
-	
 	@Override
 	public List<Object> getIndustryName(String Id) {
 
@@ -78,6 +73,8 @@ public class MasterDataDaoImpl implements MasterDataDao {
 		return jdbcTemplate.query("select * from rocaserviceteam.ServiceTeamUsers where isActive = 1 ;", new JuniourServiceTeamMemberMapper());
 
 	}
+
+
 	
 	
 

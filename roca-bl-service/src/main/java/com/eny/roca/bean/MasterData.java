@@ -1,9 +1,11 @@
 package com.eny.roca.bean;
 
+import java.util.List;
+
 public class MasterData {
 	private int id;
 	private String description;
-	private Children children;
+	private List<Children> children;
 	public int getId() {
 		return id;
 	}
@@ -16,11 +18,12 @@ public class MasterData {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Children getChildren() {
+	public List<Children> getChildren() {
 		return children;
 	}
-	public void setChildren(Children children) {
+	public void setChildren(List<Children> children) {
 		this.children = children;
 	}
+	 
 
 }
