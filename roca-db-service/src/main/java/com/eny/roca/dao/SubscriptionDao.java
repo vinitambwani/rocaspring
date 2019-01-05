@@ -13,4 +13,10 @@ public interface SubscriptionDao {
 
 	Integer saveSubscriptionAssignment(SubscriptionAssignment subscriptionBean);
 
+	Integer updateSubscriptionPaceId(String paceId, Integer id, String email);
+
+	Integer updateAdditionalDocRequired(Integer docRequired, Integer id, String email);
+
+	Integer updateStatus(Integer id, String action, String condition);
+
 }
