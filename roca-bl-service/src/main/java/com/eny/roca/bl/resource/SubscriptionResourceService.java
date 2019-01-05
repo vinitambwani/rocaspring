@@ -82,7 +82,6 @@ public class SubscriptionResourceService {
 		map.add("paceId" ,paceId); 
 		map.add("id", json);
 		map.add("email", email);
-		
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/updatePaceId", request, Boolean.class);
 		return postForEntity.getBody();
