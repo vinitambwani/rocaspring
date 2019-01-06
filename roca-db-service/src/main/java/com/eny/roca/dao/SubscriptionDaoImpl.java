@@ -134,6 +134,24 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 
 
 	@Override
+ 	public List<SubscriptionBean> fetchUserSubscriptionStatus(String emailId, String status, Integer subscriptionId) {
+		String query = ""
+				+ "select s.id,s.LegalEntityName,s.Pseudonym,cm.CountryName, "
+				+ "        s.TaxResidentialStatus,s.BodyCorporates,s.IsCharitableOrNonProfitable, "
+				+ "        s.EmailId,cm1.CountryName cm1CountryName,s.IndustryId ,s.pan,s.IsPanAttached,s.PanComments,s.Gst, "
+				+ "        s.GstComments,s.Url,s.Address,s.IsEyDisclosureAccepted,Status,PaceId,s.IsAdditionalDocRequired,IsOnlineEngagedSigned,rr.Name RoleDesc,s.ContactPerson,s.MobileNumber,"
+				+ "s.WorkedWithEY,s.EYContactPerson1, s.EYContactPerson2, s.IsRocaServiceAvailed, s.RelatedPartyName1, s.RelatedPartyName2 "
+				+ "        from rocausers.Subscription s Left join   rocausers.TransactionSubscribtionDetails ts "
+				+ " on s.Id = ts.subscriptionId "
+				+ " inner join RocaMaster.Country cm on s.CountryIncorporation = cm.id "
+				+ " inner join RocaMaster.Country cm1 on s.CompanyHQLocation = cm1.id "
+				+ " inner join RocaMaster.RoleMaster rr on s.RoleId = rr.id "
+				+ "and s.status=?";
+		//(s.emailId=?  or s.id=? ) and 
+		
+		//List<SubscriptionBean> subscriptionBeans = jdbcTemplate.query(query, new Object[] {emailId,subscriptionId,status},  new SubscriptionDetailsMapper());
+		return jdbcTemplate.query(query, new Object[] {status},  new SubscriptionDetailsMapper());
+	}
 	public Integer updateSubscriptionPaceId(String paceId, Integer id, String email) {
 		String query =  "UPDATE  rocausers.subscription SET PaceId = :paceid where Id = :id and Emailid = :emailid";
 		Map<String,Object> map = new HashMap<>(1);
@@ -179,7 +197,7 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		map.put("id", id);
 		int update = namedParameterJdbcTemplate.update(query,map);
 		return update;
-	}
+ 	}
 	
 
 }

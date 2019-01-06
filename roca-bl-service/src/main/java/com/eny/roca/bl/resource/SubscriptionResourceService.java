@@ -1,5 +1,7 @@
 package com.eny.roca.bl.resource;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -71,6 +73,16 @@ public class SubscriptionResourceService {
 		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/subscriptionAssignment", httpEntity, Boolean.class);
 		return postForEntity.getBody();
 		
+	}
+	
+	@PostMapping("/fetchSubscriptionStatus")
+	public List<SubscriptionBean> fetchUserSubscriptionStatus(@RequestBody UserBean userBean) {
+		String json = gson.toJson(userBean);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<List> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/fetchUserSubscriptionStatus",httpEntity, List.class);
+		return postForEntity.getBody();
 	}
 	
 	@PostMapping("/updatePaceId")
