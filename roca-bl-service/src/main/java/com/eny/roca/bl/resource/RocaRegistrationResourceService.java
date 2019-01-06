@@ -69,18 +69,18 @@ public class RocaRegistrationResourceService {
 	@PostMapping("/send-mail")
 	public Boolean sendMail(@RequestParam("email") String email) throws MessagingException {
 		
-		String l = "http://localhost:8302/api/roca-db-service/rs/db/verifyEmail?email="+email;
+		String l = "http://localhost:8302/api/roca-bl-service/rs/bl/verifiedEmailId?email="+email;
 		smtpMailSender.send(email, "ROCA Account Activation", "Link : " + l);
 		return true;
 		
 	}
 	
 	
-	@PostMapping("/verifiedEmailId")
+	@GetMapping("/verifiedEmailId")
 	public Integer VerifiedEmail(@RequestParam("email") String email) {
 		
 		HttpHeaders httpHeaders = new  HttpHeaders();
-		httpHeaders.set("content-type", "*/*");
+		httpHeaders.set("content-type", "application/json");
 		HttpEntity<String> httpEntity = new HttpEntity<>(email,httpHeaders);
 		ResponseEntity<Integer> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/verifyEmail", httpEntity, Integer.class);
 		return postForEntity.getBody();

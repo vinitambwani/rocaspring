@@ -35,8 +35,8 @@ public class RocaRegistrationDBServiceResource {
 		return registrationDao.validateEmailId(email);
 	}
 	
-	@GetMapping("/verifyEmail")
-	public Integer verifyEmailId(@RequestParam String email) {
+	@PostMapping("/verifyEmail")
+	public Integer verifyEmailId(@RequestBody String email) {
 		return registrationDao.verifyEmailId(email);
 	}
 	
