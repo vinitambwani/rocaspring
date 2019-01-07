@@ -30,7 +30,7 @@ public class RocaRegistrationDBServiceResource {
 		return registrationDao.setMasterData(userRegistration);
 	}
 	
-	@PostMapping("/validateEmail")
+	@GetMapping("/validateEmail")
 	public Boolean validateEmailId(@RequestParam String email) {
 		return registrationDao.validateEmailId(email);
 	}

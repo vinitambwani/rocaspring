@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.eny.roca.bean.StatusBean;
 import com.eny.roca.bean.SubscriptionAssignment;
 import com.eny.roca.bean.SubscriptionBean;
 import com.eny.roca.bean.UserBean;
@@ -65,7 +66,7 @@ public class SubscriptionResourceService {
 	}
 	
 	@PostMapping("/setSubscriptionAssignment")
-	public Boolean subscriptionAssignment(@RequestBody SubscriptionAssignment subscriptionAssignment) {
+	public Boolean subscriptionAssignment(@RequestBody List<SubscriptionAssignment> subscriptionAssignment) {
 		String json = gson.toJson(subscriptionAssignment);
 		HttpHeaders httpHeaders = new  HttpHeaders();
 		httpHeaders.set("content-type", "application/json");
@@ -86,48 +87,33 @@ public class SubscriptionResourceService {
 	}
 	
 	@PostMapping("/updatePaceId")
-	public Boolean updatePaceId(@RequestParam String paceId, @RequestParam Integer id, @RequestParam String email) {
-		String json = gson.toJson(id);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-		map.add("paceId" ,paceId); 
-		map.add("id", json);
-		map.add("email", email);
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/updatePaceId", request, Boolean.class);
+	public Boolean updatePaceId(@RequestBody List<SubscriptionAssignment> subscriptionAssignment) {
+		String json = gson.toJson(subscriptionAssignment);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/updatePaceId", httpEntity, Boolean.class);
 		return postForEntity.getBody();
 		
 	}
 	
 	@PostMapping("/updateAdditionalDocRequired")
-	public Boolean updateAdditionalDocRequired(@RequestParam Integer docRequired, @RequestParam Integer id, @RequestParam String email) {
-		String docrequired = gson.toJson(docRequired);
-		String json = gson.toJson(id);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-		map.add("docRequired" ,docrequired); 
-		map.add("id", json);
-		map.add("email", email);
-		
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/updateAdditionalDocRequired", request, Boolean.class);
+	public Boolean updateAdditionalDocRequired(@RequestBody StatusBean statusBean) {
+		String json = gson.toJson(statusBean);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/updateAdditionalDocRequired", httpEntity, Boolean.class);
 		return postForEntity.getBody();
-		
 	}
 	
 	@PostMapping("/updateStatus")
-	public Boolean updateStatus(@RequestParam Integer id, @RequestParam String action, @RequestParam String condition) {
-		String json = gson.toJson(id);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-		map.add("id" ,json);
-		map.add("action" ,action);
-		map.add("condition" ,condition);
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/updateStatus", request, Boolean.class);
+	public Boolean updateStatus(@RequestBody List<StatusBean> statusBean) {
+		String json = gson.toJson(statusBean);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/updateStatus", httpEntity, Boolean.class);
 		return postForEntity.getBody();
 	}
 }

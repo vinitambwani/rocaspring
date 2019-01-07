@@ -1,5 +1,6 @@
 package com.eny.roca.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.eny.roca.db.bean.StatusBean;
 import com.eny.roca.db.bean.SubscriptionAssignment;
 import com.eny.roca.db.bean.SubscriptionBean;
 
@@ -117,19 +119,47 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 
 
 	@Override
-	public Integer saveSubscriptionAssignment(SubscriptionAssignment subscriptionAssignment) {
+	public Integer saveSubscriptionAssignment(List<SubscriptionAssignment> subscriptionBean) {
+		List<Integer> update = new ArrayList<Integer>();
+		int i = 0;
+		for(SubscriptionAssignment s : subscriptionBean) { 
 		String query =  "INSERT INTO  rocaserviceteam.SubscriptionAssignment "
 				+ "				 (SubscriptionId, FromAssignment, ToAssignment, Comments) "
 				+ "				 VALUES (:subscriptionId,:fromAssignment,:toAssignment,:comments)";
 		
 		Map<String,Object> map = new HashMap<>(1);
-		map.put("subscriptionId", subscriptionAssignment.getSubscriptionId());
-		map.put("fromAssignment", subscriptionAssignment.getFromAssignment());
-		map.put("toAssignment", subscriptionAssignment.getToAssignment());
-		map.put("comments", subscriptionAssignment.getComments());
+		map.put("subscriptionId", s.getId());
+		map.put("fromAssignment", s.getFromAssignment());
+		map.put("toAssignment", s.getToAssignment());
+		map.put("comments", s.getComments());
+		 
+		String getStatus = "select Status from rocausers.Subscription where rocausers.Subscription.Id=?";
+		String queryForFromStatus = jdbcTemplate.queryForObject(getStatus , new Object[] {s.getId()},  String.class);
+		String queryForToStatus = null;
 		
-		int update = namedParameterJdbcTemplate.update(query,map);
-		return update;
+		if (queryForFromStatus.equalsIgnoreCase("JRREVIEWED")) {
+			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=? and Action=? and Condition=?";
+			queryForToStatus = jdbcTemplate.queryForObject(ToStatus, new Object[] { queryForFromStatus, s.getAction(), s.getCondition() }, String.class);
+		} else if (queryForFromStatus.equalsIgnoreCase("PACE_CREATED")) {
+			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=? and Action=?";
+			queryForToStatus = jdbcTemplate.queryForObject(ToStatus, new Object[] { queryForFromStatus, s.getAction() }, String.class);
+		} else {
+			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=?";
+			queryForToStatus = jdbcTemplate.queryForObject(ToStatus , new Object[] {queryForFromStatus},  String.class);
+		}
+		String query2 =  "UPDATE  rocausers.Subscription SET Status = :status ,UpdatedOn = CURRENT_TIMESTAMP where Id = :id";
+		Map<String,Object> map2 = new HashMap<>(1);
+		map2.put("status", queryForToStatus);
+		map2.put("id", s.getId());
+		
+		
+		update.add(namedParameterJdbcTemplate.update(query,map));
+		update.add(namedParameterJdbcTemplate.update(query2,map2));
+		}
+		if(!update.contains(0)) {
+			i =1;
+		}
+		return i;
 	}
 
 
@@ -152,41 +182,78 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		//List<SubscriptionBean> subscriptionBeans = jdbcTemplate.query(query, new Object[] {emailId,subscriptionId,status},  new SubscriptionDetailsMapper());
 		return jdbcTemplate.query(query, new Object[] {status},  new SubscriptionDetailsMapper());
 	}
-	public Integer updateSubscriptionPaceId(String paceId, Integer id, String email) {
-		String query =  "UPDATE  rocausers.subscription SET PaceId = :paceid where Id = :id and Emailid = :emailid";
-		Map<String,Object> map = new HashMap<>(1);
-		map.put("paceid", paceId);
-		map.put("id", id); 
-		map.put("emailid", email);
-		int update = namedParameterJdbcTemplate.update(query,map);
-		return update;
-	}
-
-
-	@Override
-	public Integer updateAdditionalDocRequired(Integer docRequired, Integer id, String email) {
-		String query =  "UPDATE  rocausers.subscription SET IsAdditionalDocRequired = :isAdditionalDocRequired where Id = :id and Emailid = :emailid";
-		Map<String,Object> map = new HashMap<>(1);
-		map.put("isAdditionalDocRequired", docRequired);
-		map.put("id", id); 
-		map.put("emailid", email);
-		int update = namedParameterJdbcTemplate.update(query,map);
-		return update;
-	}
-
-
-	@Override
-	public Integer updateStatus(Integer id, String action, String condition) {
+	public Integer updateSubscriptionPaceId(List<SubscriptionAssignment> subscriptionBean) {
 		
+
+		List<Integer> update = new ArrayList<Integer>();
+		int i = 0;
+		for(SubscriptionAssignment s : subscriptionBean) { 
+		String query =  "INSERT INTO  rocaserviceteam.SubscriptionAssignment "
+				+ "				 (SubscriptionId, FromAssignment, ToAssignment, Comments) "
+				+ "				 VALUES (:subscriptionId,:fromAssignment,:toAssignment,:comments)";
+		
+		Map<String,Object> map = new HashMap<>(1);
+		map.put("subscriptionId", s.getId());
+		map.put("fromAssignment", s.getFromAssignment());
+		map.put("toAssignment", s.getToAssignment());
+		map.put("comments", s.getComments());
+		 
 		String getStatus = "select Status from rocausers.Subscription where rocausers.Subscription.Id=?";
-		String queryForFromStatus = jdbcTemplate.queryForObject(getStatus , new Object[] {id},  String.class);
+		String queryForFromStatus = jdbcTemplate.queryForObject(getStatus , new Object[] {s.getId()},  String.class);
 		String queryForToStatus = null;
+		
 		if (queryForFromStatus.equalsIgnoreCase("JRREVIEWED")) {
 			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=? and Action=? and Condition=?";
-			queryForToStatus = jdbcTemplate.queryForObject(ToStatus, new Object[] { queryForFromStatus, action, condition }, String.class);
+			queryForToStatus = jdbcTemplate.queryForObject(ToStatus, new Object[] { queryForFromStatus, s.getAction(), s.getCondition() }, String.class);
 		} else if (queryForFromStatus.equalsIgnoreCase("PACE_CREATED")) {
 			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=? and Action=?";
-			queryForToStatus = jdbcTemplate.queryForObject(ToStatus, new Object[] { queryForFromStatus, action }, String.class);
+			queryForToStatus = jdbcTemplate.queryForObject(ToStatus, new Object[] { queryForFromStatus, s.getAction() }, String.class);
+		} else {
+			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=?";
+			queryForToStatus = jdbcTemplate.queryForObject(ToStatus , new Object[] {queryForFromStatus},  String.class);
+		}
+		String query2 =  "UPDATE  rocausers.Subscription SET Status = :status, PaceId = :paceid ,UpdatedOn = CURRENT_TIMESTAMP where Id = :id";
+		Map<String,Object> map2 = new HashMap<>(1);
+		map2.put("status", queryForToStatus);
+		map2.put("paceid", s.getPaceId());
+		map2.put("id", s.getId());
+		
+		update.add(namedParameterJdbcTemplate.update(query,map));
+		update.add(namedParameterJdbcTemplate.update(query2,map2));
+		}
+		if(!update.contains(0)) {
+			i =1;
+		}
+		return i;
+	}
+
+
+	@Override
+	public Integer updateAdditionalDocRequired(StatusBean statusBean) {
+		String query =  "UPDATE  rocausers.subscription SET IsAdditionalDocRequired = :isAdditionalDocRequired where Id = :id";
+		Map<String,Object> map = new HashMap<>(1);
+		map.put("isAdditionalDocRequired", statusBean.getDocRequired());
+		map.put("id", statusBean.getId()); 
+		int update = namedParameterJdbcTemplate.update(query,map);
+		return update;
+	}
+
+
+	@Override
+	public Integer updateStatus(List<StatusBean> statusBean) {
+		List<Integer> update = new ArrayList<Integer>();
+		int i = 0;
+		for(StatusBean s : statusBean) { 
+		String getStatus = "select Status from rocausers.Subscription where rocausers.Subscription.Id=?";
+		String queryForFromStatus = jdbcTemplate.queryForObject(getStatus , new Object[] {s.getId()},  String.class);
+		String queryForToStatus = null;
+		
+		if (queryForFromStatus.equalsIgnoreCase("JRREVIEWED")) {
+			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=? and Action=? and Condition=?";
+			queryForToStatus = jdbcTemplate.queryForObject(ToStatus, new Object[] { queryForFromStatus, s.getAction(), s.getCondition() }, String.class);
+		} else if (queryForFromStatus.equalsIgnoreCase("PACE_CREATED")) {
+			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=? and Action=?";
+			queryForToStatus = jdbcTemplate.queryForObject(ToStatus, new Object[] { queryForFromStatus, s.getAction() }, String.class);
 		} else {
 			String ToStatus = "select ToState from rocaserviceteam.SubscriptionStatusMaster where fromstate=?";
 			queryForToStatus = jdbcTemplate.queryForObject(ToStatus , new Object[] {queryForFromStatus},  String.class);
@@ -194,9 +261,13 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		String query =  "UPDATE  rocausers.Subscription SET Status = :status ,UpdatedOn = CURRENT_TIMESTAMP where Id = :id";
 		Map<String,Object> map = new HashMap<>(1);
 		map.put("status", queryForToStatus);
-		map.put("id", id);
-		int update = namedParameterJdbcTemplate.update(query,map);
-		return update;
+		map.put("id", s.getId());
+		update.add(namedParameterJdbcTemplate.update(query,map));
+		}
+		if(!update.contains(0)) {
+			i =1;
+		}
+		return i;
  	}
 	
 

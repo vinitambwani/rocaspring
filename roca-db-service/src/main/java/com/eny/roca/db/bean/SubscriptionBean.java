@@ -158,7 +158,7 @@ public class SubscriptionBean extends UserRegistration {
 				+ ", isAdditionalDocRequired=" + isAdditionalDocRequired + ", createdDate=" +  
 				  ", updatedDate=" +     ", isOnlineEngagementSigned=" + isOnlineEngagementSigned + "]";
 	}
-	public int getSubscriptionId() {
+	public Integer getSubscriptionId() {
 		return subscriptionId;
 	}
 	public void setSubscriptionId(int subscriptionId) {

@@ -8,7 +8,10 @@ import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,8 +57,8 @@ public class RocaRegistrationResourceService {
 		return postForEntity.getBody();
 	}
 	
-	@PostMapping("/validateEmailId")
-	public String validateEmail(@RequestParam("email") String email) {
+	@GetMapping("/validateEmailId")
+	public String validateEmail(@RequestParam String email) {
 
 		String val = null;
 		try {
@@ -66,8 +69,8 @@ public class RocaRegistrationResourceService {
 		return val;
 	}
 	
-	@PostMapping("/send-mail")
-	public Boolean sendMail(@RequestParam("email") String email) throws MessagingException {
+	@GetMapping("/send-mail")
+	public Boolean sendMail(@RequestParam String email) throws MessagingException {
 		
 		String l = "http://localhost:8302/api/roca-bl-service/rs/bl/verifiedEmailId?email="+email;
 		smtpMailSender.send(email, "ROCA Account Activation", "Link : " + l);
@@ -77,7 +80,7 @@ public class RocaRegistrationResourceService {
 	
 	
 	@GetMapping("/verifiedEmailId")
-	public Integer VerifiedEmail(@RequestParam("email") String email) {
+	public Integer VerifiedEmail(@RequestParam(value = "email") String email) {
 		
 		HttpHeaders httpHeaders = new  HttpHeaders();
 		httpHeaders.set("content-type", "application/json");

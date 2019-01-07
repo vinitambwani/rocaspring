@@ -2,6 +2,7 @@ package com.eny.roca.dao;
 
 import java.util.List;
 
+import com.eny.roca.db.bean.StatusBean;
 import com.eny.roca.db.bean.SubscriptionAssignment;
 import com.eny.roca.db.bean.SubscriptionBean;
 
@@ -13,15 +14,15 @@ public interface SubscriptionDao {
 
 	SubscriptionBean fetchUserSubscription(String emailId);
 
-	Integer saveSubscriptionAssignment(SubscriptionAssignment subscriptionBean);
+	Integer saveSubscriptionAssignment(List<SubscriptionAssignment> subscriptionBean);
 
  
 	List<SubscriptionBean> fetchUserSubscriptionStatus(String emailId, String status, Integer subscriptionId);
  
-	Integer updateSubscriptionPaceId(String paceId, Integer id, String email);
+	Integer updateSubscriptionPaceId(List<SubscriptionAssignment> subscriptionAssignment);
 
-	Integer updateAdditionalDocRequired(Integer docRequired, Integer id, String email);
+	Integer updateAdditionalDocRequired(StatusBean statusBean);
 
-	Integer updateStatus(Integer id, String action, String condition);
- 
+	Integer updateStatus(List<StatusBean> statusBean);
+
 }

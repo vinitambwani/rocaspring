@@ -1,18 +1,12 @@
 package com.eny.roca.bean;
 
-public class SubscriptionAssignment {
+public class SubscriptionAssignment extends StatusBean {
 
-	private Integer  subscriptionId;
+	
 	private String  fromAssignment;
 	private String  toAssignment;
 	private String  comments;
 	
-	public Integer getSubscriptionId() {
-		return subscriptionId;
-	}
-	public void setSubscriptionId(Integer subscriptionId) {
-		this.subscriptionId = subscriptionId;
-	}
 	public String getFromAssignment() {
 		return fromAssignment;
 	}
