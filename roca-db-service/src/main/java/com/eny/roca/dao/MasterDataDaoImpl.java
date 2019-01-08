@@ -68,9 +68,12 @@ public class MasterDataDaoImpl implements MasterDataDao {
 	}
 
 	@Override
-	public List<MasterData> getRocaJuniorTeamMembers() {
+	public List<MasterData> getRocaTeamMemners(String roleName) {
 		// TODO Auto-generated method stub
-		return jdbcTemplate.query("select * from rocaserviceteam.ServiceTeamUsers where isActive = 1 ;", new JuniourServiceTeamMemberMapper());
+		return jdbcTemplate.query("select * from rocaserviceteam.ServiceTeamUsers as stu\r\n" + 
+				", rocaserviceteam.ServiceTeamRole str\r\n" + 
+				"where stu.roleId = str.id \r\n" + 
+				"and str.name = ? and str.IsActive = 1 and stu.IsActive=1", new Object[] { roleName } , new JuniourServiceTeamMemberMapper());
 
 	}
 

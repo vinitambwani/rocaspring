@@ -22,4 +22,10 @@ public class ServiceTeamResourceService {
 		 ResponseEntity<List> registrationRoles = restTemplate.getForEntity("http://roca-db-service/rs/db/rocajrmembers", List.class);
 		 return (List<MasterData>)registrationRoles.getBody();
 	}
+	
+	@GetMapping("/rocasrmembers")
+	public List<MasterData> getRocaSeniorTeamMembers() {
+		 ResponseEntity<List> registrationRoles = restTemplate.getForEntity("http://roca-db-service/rs/db/rocasrmembers", List.class);
+		 return (List<MasterData>)registrationRoles.getBody();
+	}
 }

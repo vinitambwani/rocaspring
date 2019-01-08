@@ -18,6 +18,11 @@ public class DBServiceTeamResourceService {
 	
 	@GetMapping("/rocajrmembers")
 	public List<MasterData> getRocaJuniorTeamMembers(){
-		return masterDataDao.getRocaJuniorTeamMembers();	
+		return masterDataDao.getRocaTeamMemners("JUNIOR");	
+	}
+	
+	@GetMapping("/rocasrmembers")
+	public List<MasterData> getRocaSeniorTeamMembers(){
+		return masterDataDao.getRocaTeamMemners("SENIOR");	
 	}
 }
