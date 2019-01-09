@@ -1,7 +1,10 @@
 package com.eny.roca.resource;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eny.roca.dao.MasterDataDao;
 import com.eny.roca.dao.SubscriptionDao;
 import com.eny.roca.db.bean.StatusBean;
 import com.eny.roca.db.bean.SubscriptionAssignment;
@@ -25,6 +29,9 @@ public class SubscriptionDBResourceService {
 	
 	@Autowired
 	private SubscriptionDao subscriptionDao;
+	
+	@Autowired
+	private MasterDataDao masterDataDao;
 	
 	@PostMapping("/subscribe")
 	public Boolean subscribe(@RequestBody SubscriptionBean subscriptionBean) {
@@ -51,8 +58,25 @@ public class SubscriptionDBResourceService {
 	//Status
 	@PostMapping("/fetchUserSubscriptionStatus")
 	public List<SubscriptionBean> fetchUserSubscriptionStatus(@RequestBody UserBean userBean) {
+		List<SubscriptionBean>  subscriptionBeans = getSubscriptionStatus(userBean);
+				subscriptionBeans.stream().forEach(s -> s.setIndustryName(getIndustryNames(s.getIndustryId())));
+				return subscriptionBeans;
+	}
+
+	private String getIndustryNames(String industryId) {
+		List<Object> industryName = masterDataDao.getIndustryName(industryId);
+		List<String> collect = industryName.stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList()); 
+		return collect.stream().collect(Collectors.joining(","));
+		 
+	}
+
+	 
+
+	private List<SubscriptionBean> getSubscriptionStatus(UserBean userBean) {
 		return subscriptionDao.fetchUserSubscriptionStatus(userBean.getEmailId(),userBean.getStatus(),userBean.getSubscriptionId());
 	}
+	
+	
 	@Transactional(rollbackFor=Exception.class)
 	@PostMapping("/updatePaceId")
 	public Boolean updatePaceId(@RequestBody List<SubscriptionAssignment> subscriptionAssignment) {

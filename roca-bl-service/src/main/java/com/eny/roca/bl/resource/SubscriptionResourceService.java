@@ -33,6 +33,7 @@ public class SubscriptionResourceService {
 	@Autowired
 	private Gson gson;
 	
+	
 	@PostMapping("/subscribe")
 	public Boolean subscribe(@RequestBody SubscriptionBean subscriptionBean) {
 		String json = gson.toJson(subscriptionBean);
@@ -83,6 +84,8 @@ public class SubscriptionResourceService {
 		httpHeaders.set("content-type", "application/json");
 		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
 		ResponseEntity<List> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/fetchUserSubscriptionStatus",httpEntity, List.class);
+		List<SubscriptionBean> body = postForEntity.getBody();
+		
 		return postForEntity.getBody();
 	}
 	

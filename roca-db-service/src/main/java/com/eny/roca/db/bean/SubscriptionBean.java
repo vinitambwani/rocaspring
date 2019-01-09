@@ -31,6 +31,11 @@ public class SubscriptionBean extends UserRegistration {
 	private String relatedPartyName2;
 	private String roleName;
 	private String countryName;
+	private String industryName;
+	private String createdDate;
+	private String updatedDate;
+	 
+	
 	public String getPseudonym() {
 		return pseudonym;
 	}
@@ -226,6 +231,24 @@ public class SubscriptionBean extends UserRegistration {
 	}
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
+	}
+	public String getIndustryName() {
+		return industryName;
+	}
+	public void setIndustryName(String industryName) {
+		this.industryName = industryName;
+	}
+	public String getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+	public String getUpdatedDate() {
+		return updatedDate;
+	}
+	public void setUpdatedDate(String updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 
 	

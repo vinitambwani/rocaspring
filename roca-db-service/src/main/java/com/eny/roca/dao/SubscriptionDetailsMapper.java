@@ -2,7 +2,11 @@ package com.eny.roca.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.eny.roca.db.bean.SubscriptionBean;
@@ -37,6 +41,11 @@ public class SubscriptionDetailsMapper implements RowMapper<SubscriptionBean> {
 		subscriptionBean.setRocaServiceAvailed(rs.getInt("IsRocaServiceAvailed"));
 		subscriptionBean.setRelatedPartyName1(rs.getString("RelatedPartyName1"));
 		subscriptionBean.setRelatedPartyName2(rs.getString("RelatedPartyName2"));
+		subscriptionBean.setStatus(rs.getString("Status"));
+		
+		subscriptionBean.setCreatedDate(rs.getString("CreatedOn"));
+		subscriptionBean.setUpdatedDate(rs.getString("UpdatedOn"));
+		subscriptionBean.setPaceId(rs.getString("PaceId"));
 		//Need to add role description...
 		return subscriptionBean;
 	}

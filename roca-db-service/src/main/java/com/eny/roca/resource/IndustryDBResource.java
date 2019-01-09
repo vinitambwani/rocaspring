@@ -49,7 +49,7 @@ public class IndustryDBResource {
 		return masterData;}
 	
 	@PostMapping("/getIndustryName")
-	public List<Object> getIndustryName(@RequestBody String Id){
-		return masterDataDao.getIndustryName(Id);	
+	public List<Object> getIndustryName(@RequestBody String id){
+		return masterDataDao.getIndustryName(id);	
 	}
 }

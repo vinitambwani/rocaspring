@@ -51,7 +51,7 @@ public class MasterDataDaoImpl implements MasterDataDao {
 		return industryData;
 	}
 	@Override
-	public List<Object> getIndustryName(String Id) {
+	public List<Object> getIndustryName(String Id) { 
 
 		String getNameofIndustries = "select Name from rocamaster.industry where rocamaster.industry.Id in (:Id)";
 		List<Map<String, Object>> objects = new ArrayList<Map<String, Object>>();
@@ -64,7 +64,7 @@ public class MasterDataDaoImpl implements MasterDataDao {
 	    	  list.addAll(j.values());
 	      }
 		}
-		return list;
+		return list; 
 	}
 
 	@Override
