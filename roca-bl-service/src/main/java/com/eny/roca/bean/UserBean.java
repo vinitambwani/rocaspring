@@ -1,8 +1,11 @@
 package com.eny.roca.bean;
 
+import java.util.List;
+
 public class UserBean {
 	private String emailId;
 	private String status;
+	private List<String> multipleStatus;
 	private Integer subscriptionId;
 
 	public String getEmailId() {
@@ -27,6 +30,14 @@ public class UserBean {
 
 	public void setSubscriptionId(Integer subscriptionId) {
 		this.subscriptionId = subscriptionId;
+	}
+
+	public List<String> getMultipleStatus() {
+		return multipleStatus;
+	}
+
+	public void setMultipleStatus(List<String> multipleStatus) {
+		this.multipleStatus = multipleStatus;
 	}
 
 }
