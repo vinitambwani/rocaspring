@@ -1,5 +1,6 @@
 package com.eny.roca.dao;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +14,14 @@ import org.springframework.stereotype.Repository;
 import com.eny.roca.db.bean.StatusBean;
 import com.eny.roca.db.bean.SubscriptionAssignment;
 import com.eny.roca.db.bean.SubscriptionBean;
+import com.eny.roca.db.bean.SubscriptionDocDetails;
 
 @Repository
 public class SubscriptionDaoImpl implements SubscriptionDao {
+	
+	private static final String SUBSCRIPTION_DOC_TABLE = "rocausers.SubscriptionDocuments";
+	
+	private static final int IS_ACTIVE_DOC = 0;
 	@Autowired
 	private NamedParameterJdbcTemplate  namedParameterJdbcTemplate;
 	
@@ -269,6 +275,33 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		}
 		return i;
  	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public SubscriptionDocDetails saveFile(SubscriptionBean subscriptionBean) throws IOException {
+		
+		String docname = subscriptionBean.getDocName();
+		String email = subscriptionBean.getEmail();
+		String doctype = subscriptionBean.getDocType().toString();
+		byte[] subDoc = subscriptionBean.getDocData().getBytes();
+		String docExtention = subscriptionBean.getDocExtention();
+		int docIsActive = subscriptionBean.getIs_valid_doc();
+		int subscriptionId = subscriptionBean.getSubscriptionId();
+		
+		jdbcTemplate.update("insert into "+SUBSCRIPTION_DOC_TABLE+" (SubscriptionId,DocName,type, emailid,file_extention, doc_data,isActive) values (?,?,?,?,?,?,?)",subscriptionId,docname,doctype,email, docExtention,subDoc,docIsActive);
+		
+		return new SubscriptionDocDetails(docname, docExtention,subDoc.length);
+		 
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SubscriptionDocDetails> getFile(String fileName) throws IOException{
+		
+		List<SubscriptionDocDetails> fileData = jdbcTemplate.query("select * from "+SUBSCRIPTION_DOC_TABLE+" where DocName = '"+fileName+"' and isActive = 1",new SubscriptionDataMapper());
+		
+		return fileData;
+	}
 	
 
 }

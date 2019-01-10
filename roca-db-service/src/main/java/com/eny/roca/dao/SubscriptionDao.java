@@ -1,10 +1,12 @@
 package com.eny.roca.dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.eny.roca.db.bean.StatusBean;
 import com.eny.roca.db.bean.SubscriptionAssignment;
 import com.eny.roca.db.bean.SubscriptionBean;
+import com.eny.roca.db.bean.SubscriptionDocDetails;
 
 public interface SubscriptionDao {
 
@@ -24,5 +26,9 @@ public interface SubscriptionDao {
 	Integer updateAdditionalDocRequired(StatusBean statusBean);
 
 	Integer updateStatus(List<StatusBean> statusBean);
+	
+	SubscriptionDocDetails saveFile(SubscriptionBean subscriptionBean) throws IOException;
+	
+	List<SubscriptionDocDetails> getFile(String fileName) throws IOException;
 
 }
