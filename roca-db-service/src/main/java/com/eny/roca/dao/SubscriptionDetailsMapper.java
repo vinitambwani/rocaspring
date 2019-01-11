@@ -2,11 +2,7 @@ package com.eny.roca.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.eny.roca.db.bean.SubscriptionBean;

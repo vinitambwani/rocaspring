@@ -1,5 +1,9 @@
 package com.eny.roca.db.bean;
 
+import org.springframework.web.multipart.MultipartFile;
+
+
+
 public class SubscriptionBean extends UserRegistration {
 	private String pseudonym;
 	private Integer  countryIncorporation;
@@ -35,6 +39,13 @@ public class SubscriptionBean extends UserRegistration {
 	private String createdDate;
 	private String updatedDate;
 	 
+	/*Subscritpion docs */
+	private String email;
+	private String docName;
+	private SubscriptionDocType docType;
+	private String docExtention;
+	private int is_valid_doc;
+	private MultipartFile docData;
 	
 	public String getPseudonym() {
 		return pseudonym;
@@ -249,6 +260,42 @@ public class SubscriptionBean extends UserRegistration {
 	}
 	public void setUpdatedDate(String updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getDocName() {
+		return docName;
+	}
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+	public SubscriptionDocType getDocType() {
+		return docType;
+	}
+	public void setDocType(SubscriptionDocType docType) {
+		this.docType = docType;
+	}
+	public String getDocExtention() {
+		return docExtention;
+	}
+	public void setDocExtention(String docExtention) {
+		this.docExtention = docExtention;
+	}
+	public int getIs_valid_doc() {
+		return is_valid_doc;
+	}
+	public void setIs_valid_doc(int is_valid_doc) {
+		this.is_valid_doc = is_valid_doc;
+	}
+	public MultipartFile getDocData() {
+		return docData;
+	}
+	public void setDocData(MultipartFile docData) {
+		this.docData = docData;
 	}
 
 	
