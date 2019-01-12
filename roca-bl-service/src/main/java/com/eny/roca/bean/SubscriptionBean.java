@@ -44,6 +44,10 @@ public class SubscriptionBean extends UserRegistration {
 	private int is_valid_doc;
 	private MultipartFile docData;
 	
+	
+	private int isRocaServiceAvailed;
+	private int isPaceProcessCompleted;
+	
 	public String getPseudonym() {
 		return pseudonym;
 	}
@@ -287,6 +291,18 @@ public class SubscriptionBean extends UserRegistration {
 	}
 	public void setDocData(MultipartFile docData) {
 		this.docData = docData;
+	}
+	public int getIsRocaServiceAvailed() {
+		return isRocaServiceAvailed;
+	}
+	public void setIsRocaServiceAvailed(int isRocaServiceAvailed) {
+		this.isRocaServiceAvailed = isRocaServiceAvailed;
+	}
+	public int getIsPaceProcessCompleted() {
+		return isPaceProcessCompleted;
+	}
+	public void setIsPaceProcessCompleted(int isPaceProcessCompleted) {
+		this.isPaceProcessCompleted = isPaceProcessCompleted;
 	}
 
 	

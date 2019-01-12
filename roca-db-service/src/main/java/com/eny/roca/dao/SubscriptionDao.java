@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.eny.roca.db.bean.StatusBean;
 import com.eny.roca.db.bean.SubscriptionAssignment;
+import com.eny.roca.db.bean.SubscriptionAssignmentBean;
 import com.eny.roca.db.bean.SubscriptionBean;
 import com.eny.roca.db.bean.SubscriptionDocDetails;
 
@@ -30,5 +31,8 @@ public interface SubscriptionDao {
 	SubscriptionDocDetails saveFile(SubscriptionBean subscriptionBean) throws IOException;
 	
 	List<SubscriptionDocDetails> getFile(String fileName) throws IOException;
+	
+	 SubscriptionBean  fetchSubscriptionDetailsById(Integer subscriptionId);
+	 List<SubscriptionAssignmentBean> getSubscriptionAssignments(Integer subscriptionId);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.eny.roca.db.bean.StatusBean;
 import com.eny.roca.db.bean.SubscriptionAssignment;
+import com.eny.roca.db.bean.SubscriptionAssignmentBean;
 import com.eny.roca.db.bean.SubscriptionBean;
 import com.eny.roca.db.bean.SubscriptionDocDetails;
 
@@ -297,11 +298,35 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SubscriptionDocDetails> getFile(String fileName) throws IOException{
-		
 		List<SubscriptionDocDetails> fileData = jdbcTemplate.query("select * from "+SUBSCRIPTION_DOC_TABLE+" where DocName = '"+fileName+"' and isActive = 1",new SubscriptionDataMapper());
-		
 		return fileData;
 	}
 	
+	
+	@Override
+ 	public  SubscriptionBean  fetchSubscriptionDetailsById(Integer subscriptionId) {
+		String query = ""
+				+ "select s.id,s.LegalEntityName,s.Pseudonym,cm.CountryName, "
+				+ "        s.TaxResidentialStatus,s.BodyCorporates,s.IsCharitableOrNonProfitable, "
+				+ "        s.EmailId,cm1.CountryName cm1CountryName,s.IndustryId ,s.pan,s.IsPanAttached,s.PanComments,s.Gst, "
+				+ "        s.GstComments,s.Url,s.Address,s.IsEyDisclosureAccepted,s.Status,PaceId,s.IsAdditionalDocRequired,IsOnlineEngagedSigned,rr.Name RoleDesc,s.ContactPerson,s.MobileNumber,"
+				+ "s.WorkedWithEY,s.EYContactPerson1, s.EYContactPerson2, s.IsRocaServiceAvailed, s.RelatedPartyName1, s.RelatedPartyName2,s.CreatedOn ,s.UpdatedOn "
+				+ "        from rocausers.Subscription s Left join   rocausers.TransactionSubscribtionDetails ts "
+				+ " on s.Id = ts.subscriptionId "
+				+ " inner join RocaMaster.Country cm on s.CountryIncorporation = cm.id "
+				+ " inner join RocaMaster.Country cm1 on s.CompanyHQLocation = cm1.id "
+				+ " inner join RocaMaster.RoleMaster rr on s.RoleId = rr.id "
+				+ "and s.id=?";
+		
+		return jdbcTemplate.queryForObject(query, new Object[] {subscriptionId},  new SubscriptionDetailsMapper());
+	}
+	
+	@Override
+	public List<SubscriptionAssignmentBean> getSubscriptionAssignments(Integer subscriptionId) {
+		return jdbcTemplate.query("select subscriptionid,fromassignment,toassignment,comments from rocaserviceteam.SubscriptionAssignment where subscriptionid = ? AND IsActive = 1 order by createdon\r\n"
+				, new Object[] {subscriptionId},  new SubscriptionAssignmentMapper());
+
+		
+	}
 
 }

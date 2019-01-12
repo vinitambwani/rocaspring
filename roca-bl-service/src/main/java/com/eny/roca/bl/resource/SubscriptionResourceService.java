@@ -202,4 +202,24 @@ public class SubscriptionResourceService {
 		ResponseEntity<byte[]> getForEntity = restTemplate.exchange(builder.toUriString(),HttpMethod.GET,httpEntity, byte[].class);
 		return new ResponseEntity<byte[]>(getForEntity.getBody(),HttpStatus.OK);
 	}
+	
+	@PostMapping("/fetchSubscriptionById")
+	public SubscriptionBean fetchSubscriptionById(@RequestBody UserBean userBean) {
+		String json = gson.toJson(userBean);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<SubscriptionBean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/fetchSubscriptionById", httpEntity, SubscriptionBean.class);
+		return postForEntity.getBody();
+	}
+	
+	@PostMapping("/fetchSubscriptionAssignmentById")
+	public List<SubscriptionAssignment> fetchSubscriptionAssignmentById(@RequestBody UserBean userBean) {
+		String json = gson.toJson(userBean);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<List> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/fetchSubscriptionAssignmentById", httpEntity, List.class);
+		return postForEntity.getBody();
+	}
 }

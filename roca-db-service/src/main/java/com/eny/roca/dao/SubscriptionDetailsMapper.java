@@ -42,6 +42,8 @@ public class SubscriptionDetailsMapper implements RowMapper<SubscriptionBean> {
 		subscriptionBean.setCreatedDate(rs.getString("CreatedOn"));
 		subscriptionBean.setUpdatedDate(rs.getString("UpdatedOn"));
 		subscriptionBean.setPaceId(rs.getString("PaceId"));
+		subscriptionBean.setIsRocaServiceAvailed(rs.getInt("IsRocaServiceAvailed"));
+		subscriptionBean.setIsPaceProcessCompleted(rs.getInt("IsPaceProcessCompleted"));
 		//Need to add role description...
 		return subscriptionBean;
 	}
