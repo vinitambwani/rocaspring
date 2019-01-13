@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -220,6 +221,16 @@ public class SubscriptionResourceService {
 		httpHeaders.set("content-type", "application/json");
 		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
 		ResponseEntity<List> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/fetchSubscriptionAssignmentById", httpEntity, List.class);
+		return postForEntity.getBody();
+	}
+	
+	@GetMapping("/validateSubMobileNo")
+	public Integer validateMobileNo(@RequestParam(value = "mobileNo") Long mobileno) {
+		String json = gson.toJson(mobileno);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<Integer> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/validateSubscriptionMobileNo", httpEntity, Integer.class);
 		return postForEntity.getBody();
 	}
 }

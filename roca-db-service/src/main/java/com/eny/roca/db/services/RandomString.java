@@ -53,12 +53,4 @@ public class RandomString {
     public RandomString(int length) {
         this(length, new SecureRandom());
     }
-
-    /**
-     * Create session identifiers.
-     */
-    public RandomString() {
-        this(8);
-    }
-
 }

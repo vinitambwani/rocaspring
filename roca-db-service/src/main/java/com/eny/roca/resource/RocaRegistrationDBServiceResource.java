@@ -40,4 +40,18 @@ public class RocaRegistrationDBServiceResource {
 		return registrationDao.verifyEmailId(email);
 	}
 	
+	@PostMapping("/validateMobileNo")
+	public Integer validateMobileNo(@RequestBody Long mobileNo) {
+		return registrationDao.validateMobileNo(mobileNo);
+	}
+	
+	@PostMapping("/sendOtp")
+	public Integer sendOtp(@RequestBody String mobileNo) {
+		return registrationDao.sendOtp(mobileNo);
+	}
+	
+	@PostMapping("/verifyOtp")
+	public Integer verifyOtp(@RequestParam String mobileNo, @RequestParam Integer otp) {
+		return registrationDao.verifyOtp(mobileNo, otp);
+	}
 }

@@ -36,6 +36,9 @@ public class RocaRegistrationResourceService {
 	@Autowired
 	private SmtpMailSender smtpMailSender;
 	
+	@Autowired
+	private Gson gson;
+	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/getRegistrationData")
 	public List<UserRegistration> getUserRegistration() {
@@ -87,6 +90,40 @@ public class RocaRegistrationResourceService {
 		HttpEntity<String> httpEntity = new HttpEntity<>(email,httpHeaders);
 		ResponseEntity<Integer> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/verifyEmail", httpEntity, Integer.class);
 		return postForEntity.getBody();
+	}
+	
+	@GetMapping("/validateMobileNo")
+	public Integer validateMobileNo(@RequestParam(value = "mobileNo") Long mobileno) {
+		String json = gson.toJson(mobileno);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<Integer> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/validateMobileNo", httpEntity, Integer.class);
+		return postForEntity.getBody();
+	}
+	
+	@GetMapping("/sendOtp")
+	public Integer updatePaceId(@RequestParam String mobileNo) {
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(mobileNo,httpHeaders);
+		ResponseEntity<Integer> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/sendOtp", httpEntity, Integer.class);
+		return postForEntity.getBody();
+		
+	}
+	
+	@GetMapping("/verifyOtp")
+	public Integer verifyOtp(@RequestParam String mobileNo, @RequestParam Integer otp) {
+		String json = gson.toJson(otp);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+		map.add("mobileNo" ,mobileNo); 
+		map.add("otp", json);
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+		ResponseEntity<Integer> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/verifyOtp", request, Integer.class);
+		return postForEntity.getBody();
+		
 	}
 
 }

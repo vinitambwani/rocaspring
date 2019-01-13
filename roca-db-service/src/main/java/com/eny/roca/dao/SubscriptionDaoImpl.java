@@ -329,4 +329,9 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		
 	}
 
+	@Override
+	public Integer validateMobileNo(Long mobileNo) {
+		Integer queryForObject = jdbcTemplate.queryForObject("select count(*) from rocausers.Subscription where mobileNumber=?", new Object[] {mobileNo},  Integer.class);
+		return queryForObject;
+	}
 }
