@@ -21,6 +21,8 @@ public class UserRegistration {
 	private int isEmailVrified;
 	
 	private int isMobileVrified;
+	
+	private int regisrationId;
 
 	public String getLegalEntityName() {
 		return legalEntityName;
@@ -100,5 +102,13 @@ public class UserRegistration {
 
 	public void setIsMobileVrified(int isMobileVrified) {
 		this.isMobileVrified = isMobileVrified;
+	}
+
+	public int getRegisrationId() {
+		return regisrationId;
+	}
+
+	public void setRegisrationId(int regisrationId) {
+		this.regisrationId = regisrationId;
 	}
 }
