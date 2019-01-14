@@ -101,4 +101,37 @@ public class RegistrationDaoImpl implements RegistrationDao {
 		}
 		return i;
 	}
+	
+	@Override
+	public Integer validateMobileNo(Long mobileNo) {
+		Integer queryForObject = jdbcTemplate.queryForObject("select count(*) from rocausers.RocaUserRegistration where mobileNumber=?", new Object[] {mobileNo},  Integer.class);
+		return queryForObject;
+	}
+
+	@Override
+	public Integer sendOtp(String mobileNo) {
+		String ran = RandomString.digits;
+		RandomString autoGenPassword = new RandomString(4, new SecureRandom(), ran);
+		String otp = autoGenPassword.nextString();
+		//gatewayAPITest.sendMessage(mobileNo, otp);
+		
+		String setData = "INSERT INTO rocausers.OtpVerification "
+				+ "	(mobileNumber,otp) "
+				+ "VALUES "
+				+ "  (:mobilenumber,:otp)";
+		
+		Map<String, String> namedParameters = new HashMap<String, String>();
+		namedParameters.put("mobilenumber", mobileNo);
+		namedParameters.put("otp", otp);
+		namedTemplate.update(setData, namedParameters);
+		
+		return 1;
+	}
+
+	@Override
+	public Integer verifyOtp(String mobileNo, Integer otp) {
+		
+		Integer verify = jdbcTemplate.queryForObject("select count(*) from rocausers.OtpVerification where mobileNumber=? and otp=?", new Object[] {mobileNo, otp},  Integer.class);
+		return verify;
+	}
 }

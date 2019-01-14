@@ -160,4 +160,9 @@ public class SubscriptionDBResourceService {
 	public List<SubscriptionAssignmentBean> fetchSubscriptionAssignmentById(@RequestBody UserBean userBean) {
 		return subscriptionDao.getSubscriptionAssignments(userBean.getSubscriptionId());
 	}
+	
+	@PostMapping("/validateSubscriptionMobileNo")
+	public Integer validateMobileNo(@RequestBody Long mobileNo) {
+		return subscriptionDao.validateMobileNo(mobileNo);
+	}
 }

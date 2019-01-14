@@ -178,7 +178,7 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 				+ "        s.EmailId,cm1.CountryName cm1CountryName,s.IndustryId ,s.pan,s.IsPanAttached,s.PanComments,s.Gst, "
 				+ "        s.GstComments,s.Url,s.Address,s.IsEyDisclosureAccepted,s.Status,PaceId,s.IsAdditionalDocRequired,IsOnlineEngagedSigned,rr.Name RoleDesc,s.ContactPerson,s.MobileNumber,"
 				+ "s.WorkedWithEY,s.EYContactPerson1, s.EYContactPerson2, s.IsRocaServiceAvailed, s.RelatedPartyName1, s.RelatedPartyName2,s.CreatedOn ,s.UpdatedOn "
-				+ "        from rocausers.Subscription s Left join   rocausers.TransactionSubscribtionDetails ts "
+				+ ",s.IsPaceProcessCompleted        from rocausers.Subscription s Left join   rocausers.TransactionSubscribtionDetails ts "
 				+ " on s.Id = ts.subscriptionId "
 				+ " inner join RocaMaster.Country cm on s.CountryIncorporation = cm.id "
 				+ " inner join RocaMaster.Country cm1 on s.CompanyHQLocation = cm1.id "
@@ -311,7 +311,7 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 				+ "        s.EmailId,cm1.CountryName cm1CountryName,s.IndustryId ,s.pan,s.IsPanAttached,s.PanComments,s.Gst, "
 				+ "        s.GstComments,s.Url,s.Address,s.IsEyDisclosureAccepted,s.Status,PaceId,s.IsAdditionalDocRequired,IsOnlineEngagedSigned,rr.Name RoleDesc,s.ContactPerson,s.MobileNumber,"
 				+ "s.WorkedWithEY,s.EYContactPerson1, s.EYContactPerson2, s.IsRocaServiceAvailed, s.RelatedPartyName1, s.RelatedPartyName2,s.CreatedOn ,s.UpdatedOn "
-				+ "        from rocausers.Subscription s Left join   rocausers.TransactionSubscribtionDetails ts "
+				+ ",s.IsPaceProcessCompleted        from rocausers.Subscription s Left join   rocausers.TransactionSubscribtionDetails ts "
 				+ " on s.Id = ts.subscriptionId "
 				+ " inner join RocaMaster.Country cm on s.CountryIncorporation = cm.id "
 				+ " inner join RocaMaster.Country cm1 on s.CompanyHQLocation = cm1.id "
@@ -329,4 +329,9 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 		
 	}
 
+	@Override
+	public Integer validateMobileNo(Long mobileNo) {
+		Integer queryForObject = jdbcTemplate.queryForObject("select count(*) from rocausers.Subscription where mobileNumber=?", new Object[] {mobileNo},  Integer.class);
+		return queryForObject;
+	}
 }

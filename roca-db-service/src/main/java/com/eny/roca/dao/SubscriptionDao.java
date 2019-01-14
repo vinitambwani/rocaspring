@@ -35,4 +35,6 @@ public interface SubscriptionDao {
 	 SubscriptionBean  fetchSubscriptionDetailsById(Integer subscriptionId);
 	 List<SubscriptionAssignmentBean> getSubscriptionAssignments(Integer subscriptionId);
 
+	Integer validateMobileNo(Long mobileNo);
+
 }

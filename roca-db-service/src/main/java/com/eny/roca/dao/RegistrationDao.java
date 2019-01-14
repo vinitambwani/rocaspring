@@ -13,4 +13,10 @@ public interface RegistrationDao {
 	Boolean validateEmailId(String emailId);
 
 	Integer verifyEmailId(String email);
+	
+	Integer validateMobileNo(Long mobileNo);
+
+	Integer sendOtp(String mobileNo);
+
+	Integer verifyOtp(String mobileNo, Integer otp);
 }
