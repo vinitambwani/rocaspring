@@ -2,8 +2,6 @@ package com.eny.roca.db.bean;
 
 import org.springframework.web.multipart.MultipartFile;
 
-
-
 public class SubscriptionBean extends UserRegistration {
 	private String pseudonym;
 	private Integer  countryIncorporation;
