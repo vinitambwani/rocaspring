@@ -3,6 +3,7 @@ package com.eny.roca.bl.resource;
 import java.util.List;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,18 +33,27 @@ public class QueryResourceService {
 	
 	
 	@PostMapping("/saveQuery")
-	public Boolean subscribe(@RequestBody List<QueryBean> queryBean, @RequestParam Boolean isSubmit) {
-		String query = gson.toJson(queryBean);
-		String submitted = gson.toJson(isSubmit);
+	public Boolean subscribe(@RequestBody List<QueryBean> queryBean) {
+		String json = gson.toJson(queryBean);
+		HttpHeaders httpHeaders = new  HttpHeaders();
+		httpHeaders.set("content-type", "application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<>(json,httpHeaders);
+		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/saveQuery", httpEntity, Boolean.class);
+		return postForEntity.getBody();
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@GetMapping("/getQuery")
+	public List<QueryBean> getQuery(@RequestParam String status, @RequestParam Integer userId) {
+		String json = gson.toJson(userId);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-		map.add("queryBean" ,query); 
-		map.add("isSubmit", submitted);
+		map.add("status" ,status); 
+		map.add("userId", json);
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-		ResponseEntity<Boolean> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/saveQuery", request, Boolean.class);
-		return postForEntity.getBody();
-		
+		ResponseEntity<List> postForEntity = restTemplate.postForEntity("http://roca-db-service/rs/db/getQuery", request, List.class);
+		return (List<QueryBean>)postForEntity.getBody();
 	}
 
 }

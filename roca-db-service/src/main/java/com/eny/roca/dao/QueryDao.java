@@ -6,5 +6,7 @@ import com.eny.roca.db.bean.QueryBean;
 
 public interface QueryDao {
 
-	Integer saveQueryUser(List<QueryBean> queryBean, Boolean isSubmit);
+	Integer saveQueryUser(List<QueryBean> queryBean);
+
+	List<QueryBean> getQuery(String status, Integer userId);
 }

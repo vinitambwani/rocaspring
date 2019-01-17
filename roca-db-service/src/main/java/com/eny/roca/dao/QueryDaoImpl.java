@@ -25,7 +25,7 @@ public class QueryDaoImpl implements QueryDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public Integer saveQueryUser(List<QueryBean> queryPojo, Boolean isSubmit) {
+	public Integer saveQueryUser(List<QueryBean> queryPojo) {
 		int update2 = 0;
 		for(QueryBean queryBean : queryPojo) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -33,7 +33,7 @@ public class QueryDaoImpl implements QueryDao {
 				+ "				 (QueryCaption, QueryFact, Category, FinancialYear, Status, isAssigned, inScope, comments, UserId) "
 				+ "				 VALUES (:queryCaption, :queryFact, :Category, :financialYear, :status, :isAssigned, :inScope, :comment, :userId)";
 		
-		if(isSubmit) {
+		if(queryBean.getIsSubmit()) {
 			queryBean.setStatus("New");
 			queryBean.setQueStatus("New");
 		} else {
@@ -61,6 +61,12 @@ public class QueryDaoImpl implements QueryDao {
 		}
 		}
 		return update2;
+	}
+
+	@Override
+	public List<QueryBean> getQuery(String status, Integer userId) {
+		
+		return jdbcTemplate.query("select * from rocausers.Query qr inner join rocausers.question qu on qr.id=qu.queryId  where qr.status=? and qr.UserId=?",new Object[] {status, userId}, new QueryDataMapper());
 	}
 
 }

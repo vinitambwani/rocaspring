@@ -11,6 +11,8 @@ public class QueryBean extends QuestionBean{
 	private String comment;
 	private Integer userId;
 	
+	private Boolean isSubmit;
+	
 	public String getQueryCaption() {
 		return queryCaption;
 	}
@@ -64,5 +66,11 @@ public class QueryBean extends QuestionBean{
 	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+	public Boolean getIsSubmit() {
+		return isSubmit;
+	}
+	public void setIsSubmit(Boolean isSubmit) {
+		this.isSubmit = isSubmit;
 	}
 }
