@@ -1,0 +1,39 @@
+spring:
+  profile: default
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: eny.roca@gmail.com
+    password: toujvpfrdtuuqdmb
+    properties:
+      mail:
+        smtp:
+          auth: true
+        starttls:
+          enable: true  
+  servlet:
+    multipart: 
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+  jackson:
+    SerializationFeature:
+      FAIL_ON_EMPTY_BEANS: false
+
+roca:
+  db:
+    service:
+      url: http://roca-db-service/rs/db/
+  registration:
+    ad:
+      tenantid: 5b67aaaf-6a85-483c-8bf1-45bfa479861c
+      clientid: 1fb48c5f-3cd0-457e-bf01-4b794d7b8ccb
+      responseType: code
+      responseMode: query
+      scope: https://ganeshbhure1gmail.onmicrosoft.com/8057cfc8-15b1-4f95-968f-65100b837e17/users.read
+      clientSecret: '@GOLu*=x.R2R7sT+xg8o1Z|W_#OS3'
+      directory:
+        scope: https://graph.microsoft.com/Directory.AccessAsUser.All
+###### End : Roca Azure AD Registration#############
